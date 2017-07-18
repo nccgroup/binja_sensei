@@ -1,6 +1,6 @@
 from binaryninja import RepositoryManager
 
-plugin_list = ['Annotator']
+plugin_list = ['Annotator', 'binja_explain_instruction']
 
 manager = RepositoryManager()
 manager.check_for_updates()
@@ -10,3 +10,5 @@ for plugin in manager.plugins['default']:
             manager.enable_plugin(plugin.name)
         else:
             manager.update_plugin(plugin)
+
+import writeups
