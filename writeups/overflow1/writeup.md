@@ -1,9 +1,9 @@
 # Overflow 1 Writeup
 
-Once we've opened up the binary, the first step is to go to the Tools menu and click "Enable Dynamic Analysis Tools". This will jump the binary view to the main function and set a breakpoint there.
+Once we've opened up the binary, the first step is to go to the Tools menu and click "Enable Dynamic Analysis Tools". This will jump the binary view to the `main` function and set a breakpoint there.
 ![Screenshot](images/1.png)
 
-Just to try things out, we'll first run the binary without any input. After first hitting the Run button, then stepping execution a few times, you can see in the screenshot below that the binary has printed out usage information, and the instruction pointer has moved to a code path that simply exits. We'll finish stepping through to the exit, then try something else.
+Just to try things out, we'll first run the binary without any input. After hitting the run button, then stepping execution a few times, you can see in the screenshot below that the binary has printed out usage information, and the instruction pointer has moved to a code path that simply exits. We'll finish stepping through to the exit, then try something else.
 ![Screenshot](images/2.png)
 
 Let's pass the binary some input on the command line so that we can follow a code path that actually does something. We click the Set Argument button (highlighted in orange), change the argument mode to python 2.7, and enter the string `'A'*64`, which evaluates to a string of 64 A's.
