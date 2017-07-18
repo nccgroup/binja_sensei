@@ -100,4 +100,7 @@ ENV/
 # mypy
 .mypy_cache/
 
+# OSX Crap
+.DS_Store
+
 sync.sh
