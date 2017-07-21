@@ -1,6 +1,6 @@
 from binaryninja import RepositoryManager
 
-plugin_list = ['Annotator', 'binja_explain_instruction']
+plugin_list = ['Annotator', 'binja_explain_instruction', 'Syscaller']
 
 manager = RepositoryManager()
 manager.check_for_updates()
