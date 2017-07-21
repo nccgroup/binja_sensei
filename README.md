@@ -34,12 +34,15 @@ Annotator uses a virtual stack to annotate calls to libc functions with argument
 
 ### [Architecture Reference](https://github.com/ehennenfent/binja_arch_ref)
 This plugin displays a cheat sheet with Binary Ninja's internal information on the architecture.
+![arch-ref screenshot](screenshots/arch-ref.png)
 
 ### [Binja Dynamic Analysis Tools](https://github.com/ehennenfent/binja_dynamics)
 This plugin adds a Qt frontend to [Binjatron](https://github.com/snare/binjatron), including highlights intended to help beginners spot important memory locations.
+![binja-dynamics screenshot](screenshots/binja-dynamics.png)
 
 ### [Explain Instruction](https://github.com/ehennenfent/binja_explain_instruction/)
 Adds a popup window that explains in simple English what an assembly instruction does.
+![binja-explain-instruction screenshot](screenshots/binja-explain-instruction.png)
 
 ### [Syscaller](https://github.com/carstein/Syscaller)
 Annotates system calls with arguments.
