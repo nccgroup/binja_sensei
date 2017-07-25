@@ -27,6 +27,9 @@ We need to figure how how `win` gets its value. Fortunately, the MLIL makes it e
 Changing the name of this variable makes it easy to notice instruction 12, where it's used in a conditional jump. If `win_src` is not equal to 1, the conditional jump takes us to instruction 13. Instruction 13 prints out "you lose", so it's probably safe to assume we don't want to take that branch. If `win_src` is equal to 1, conditional jump takes us to a block of code that appears to drop a shell. Let's try to figure out how we can make `win_src` be equal to 1.
 ![Screenshot](images/supplemental.png)
 
+Alternately, we can use the instruction explanation plugin (Right click --> Explain Instruction) to get an explanation of the jump. However, this won't fold in variable names, so we have to keep in mind that `win_src` is what's in the memory at `ebp - 0xc`.
+![Screenshot](images/explain.png)
+
 In this image, we've switched to the LLIL (Options --> Low Level IL) in order to try and determine where `win_src` lives in the program's memory. At LLIL instruction 17, we can see that it starts at `ebp - 0xc`. We'll make this display as a decimal so it's a little bit more readable.
 ![Screenshot](images/9.png)
 
