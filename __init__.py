@@ -2,7 +2,7 @@ from binaryninja import RepositoryManager, user_plugin_path, log_error, log_info
 import json
 import pip
 
-plugin_list = ['Annotator', 'Explain Instruction', 'Syscaller', 'binja_dynamics', 'binja_arch_ref']
+plugin_list = ['Annotator', 'Explain Instruction', 'Syscaller', 'Binary Ninja Dynamic Analysis Tools', 'Binja Architecture Reference']
 
 def handle_dependencies(plugin):
     path = user_plugin_path.replace('plugins', 'repositories/default/plugins')
