@@ -1,4 +1,4 @@
-from binaryninja import RepositoryManager, user_plugin_path, log_error
+from binaryninja import RepositoryManager, user_plugin_path, log_error, log_info
 import json
 import pip
 
@@ -26,9 +26,13 @@ manager.check_for_updates()
 for plugin in manager.plugins['default']:
     if plugin.name in plugin_list:
         if not plugin.installed:
-            manager.enable_plugin(plugin.name, install=True)
+            log_info("Installing {}".format(plugin.name))
+            succ = manager.enable_plugin(plugin.name, install=True)
+            if not succ:
+                log_error("{} installation failed".format(plugin.name))
             handle_dependencies(plugin)
         else:
+            log_info("Updating {}".format(plugin.name))
             manager.update_plugin(plugin)
 
 import writeups

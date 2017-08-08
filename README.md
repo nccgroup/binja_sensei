@@ -6,10 +6,10 @@ This plugin provides resources for beginners to learn reverse engineering using 
 ## Setup
 Due to a [bug](https://github.com/Vector35/binaryninja-api/issues/740) (as of dev-1.0.794) in the way Binary Ninja handles repository management, all the plugins installed by Binja Sensei will be disabled. To fix this, after first installing Sensei, simply run the following snippet in the script console, then restart Binja.
 ``` python
-import binja_sensei
 manager = RepositoryManager()
-for plugin in binja_sensei.plugin_list:
-  manager.enable_plugin(plugin)
+
+for plugin in manager.plugins['default']:
+  log_info(plugin.name + ": " + str(manager.enable_plugin(plugin, install=False)))
 ```
 
 ## Bundled Tools
