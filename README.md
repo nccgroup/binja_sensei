@@ -42,7 +42,7 @@ Please note that the bundled tools remain property of their respective authors. 
 * [**Syscaller**](#syscaller) by Carstein
 
 ## Writeups
-To demonstrate potential use cases for these plugins, solutions for the five overflow challenges from [PicoCTF 2013](https://github.com/picoCTF/2013-Problems) are included.
+To demonstrate potential use cases for these plugins, solutions for the five overflow challenges from [PicoCTF 2013](https://github.com/picoCTF/2013-Problems) are included. Please note that minor changes in terms of functionality, color scheme, and bugfixes may have been implemented since the creation of the writeups. 
 
 * [Overflow 1](writeups/overflow1/writeup.md)
 * [Overflow 2](writeups/overflow2/writeup.md)
