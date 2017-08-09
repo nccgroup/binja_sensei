@@ -3,6 +3,9 @@ Educational tools for Binary Ninja
 
 This plugin provides resources for beginners to learn reverse engineering using Binary Ninja. It automatically installs several other plugins, and provides examples that showcase the features of these plugins.
 
+## Origins
+This project is a product of [NCC Group](https://www.nccgroup.trust/us/)'s 2017 summer internship program.
+
 ## Setup
 
 #### Plugin Manager
@@ -42,7 +45,7 @@ Please note that the bundled tools remain property of their respective authors. 
 * [**Syscaller**](#syscaller) by Carstein
 
 ## Writeups
-To demonstrate potential use cases for these plugins, solutions for the five overflow challenges from [PicoCTF 2013](https://github.com/picoCTF/2013-Problems) are included. Please note that minor changes in terms of functionality, color scheme, and bugfixes may have been implemented since the creation of the writeups. 
+To demonstrate potential use cases for these plugins, solutions for the five overflow challenges from [PicoCTF 2013](https://github.com/picoCTF/2013-Problems) are included. Please note that minor changes in terms of functionality, color scheme, and bugfixes may have been implemented since the creation of the writeups.
 
 * [Overflow 1](writeups/overflow1/writeup.md)
 * [Overflow 2](writeups/overflow2/writeup.md)
