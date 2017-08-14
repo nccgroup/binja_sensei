@@ -30,7 +30,7 @@ for plugin in manager.plugins['default']:
     if plugin.name in plugin_list:
         if not plugin.installed:
             log_info("Installing {}".format(plugin.name))
-            succ = manager.enable_plugin(plugin.name, install=True)
+            succ = manager.enable_plugin(plugin, install=True)
             if not succ:
                 log_error("{} installation failed".format(plugin.name))
                 traceback.print_exc()
@@ -38,5 +38,6 @@ for plugin in manager.plugins['default']:
         else:
             log_info("Updating {}".format(plugin.name))
             manager.update_plugin(plugin)
+            handle_dependencies(plugin)
 
 # import writeups
