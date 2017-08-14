@@ -13,9 +13,13 @@ For the sake of futureproofing, Binja Sensei installs plugins via the yet-incomp
 ```python
 manager = RepositoryManager()
 
-manager.install_plugin('Sensei')
+manager.enable_plugin('binja_sensei', install=True)
 ```
-Next, restart Binary Ninja. When loaded, Sensei will update all the bundled plugins to the latest version, and install any python dependencies for each plugin. It *won't* automatically run install scripts, so if you're on Ubuntu and intend to set up `binja_dynamics`, you'll need to navigate to `~/binaryninja/repositories/default/plugins/binja_dynamics` and run `./install.sh`. At time of writing, you'll also need to run the snippet in the Caveats section before restarting.
+Note: Depending on when you installed Binja, you may need to run `manager.check_for_updates()` and restart Binja for this plugin to show up. I strongly recommend installing on a fresh VM.
+
+If you're running this before August 31st, 2017, you'll need to be using the development version of Binary Ninja, as dependency installation relies on [	b0778fc](https://github.com/Vector35/binaryninja-api/commit/b0778fc4d0271a9ba16e7c81c2c4c67a8273cda6).
+
+Next, restart Binary Ninja. When loaded, Sensei will update all the bundled plugins to the latest version, and install any python dependencies for each plugin. It *won't* automatically run install scripts, so if you're on Ubuntu and intend to set up `binja_dynamics`, you'll need to navigate to `~/.binaryninja/repositories/default/plugins/binja_dynamics` and run `./install.sh`. At time of writing, you'll also need to run the snippet in the Caveats section before restarting.
 
 #### Manual Installation
 If any of the plugin installations fail, you may have more success performing a manual installation. Pending [Issue #753](https://github.com/Vector35/binaryninja-api/issues/753), some plugins that reply on absolute file paths may not work unless manually installed. To manually install, copy the relevant repository links below, and clone them inside of your [plugins directory](https://github.com/Vector35/binaryninja-api/tree/master/python/examples#loading-plugins).

@@ -1,6 +1,7 @@
 from binaryninja import RepositoryManager, user_plugin_path, log_error, log_info
 import json
 import pip
+import traceback
 
 plugin_list = ['Annotator', 'Explain Instruction', 'Syscaller', 'Binary Ninja Dynamic Analysis Tools', 'Binja Architecture Reference']
 
@@ -15,11 +16,13 @@ def handle_dependencies(plugin):
                 for package in dependencies["pip"]:
                     print("Installing {} depdency: {}".format(plugin.name, package))
                     try:
-                        pip.main(['install', package])
+                        pip.main(['install', '-q', package])
                     except IOError:
                         print("Unable to install {}. Permissions?".format(package))
+                        traceback.print_exc()
     except IOError:
         log_error("Unable to install dependencies for {}".format(plugin.name))
+        traceback.print_exc()
 
 manager = RepositoryManager()
 manager.check_for_updates()
@@ -30,9 +33,10 @@ for plugin in manager.plugins['default']:
             succ = manager.enable_plugin(plugin.name, install=True)
             if not succ:
                 log_error("{} installation failed".format(plugin.name))
+                traceback.print_exc()
             handle_dependencies(plugin)
         else:
             log_info("Updating {}".format(plugin.name))
             manager.update_plugin(plugin)
 
-import writeups
+# import writeups
