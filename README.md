@@ -17,9 +17,9 @@ manager.enable_plugin('binja_sensei', install=True)
 ```
 Note: Depending on when you installed Binja, you may need to run `manager.check_for_updates()` and restart Binja for this plugin to show up. I strongly recommend installing on a fresh VM.
 
-If you're running this before August 31st, 2017, you'll need to be using the development version of Binary Ninja, as dependency installation relies on [	b0778fc](https://github.com/Vector35/binaryninja-api/commit/b0778fc4d0271a9ba16e7c81c2c4c67a8273cda6).
+If you're running this before August 31st, 2017, you'll need to be using the development version of Binary Ninja, as dependency installation relies on [	b0778fc](https://github.com/Vector35/binaryninja-api/commit/b0778fc4d0271a9ba16e7c81c2c4c67a8273cda6) and [326253a](https://github.com/Vector35/binaryninja-api/commit/326253abc74f7d6b601e03463df6abe8b8929428).
 
-Next, restart Binary Ninja. When loaded, Sensei will update all the bundled plugins to the latest version, and install any python dependencies for each plugin. It *won't* automatically run install scripts, so if you're on Ubuntu and intend to set up `binja_dynamics`, you'll need to navigate to `~/.binaryninja/repositories/default/plugins/binja_dynamics` and run `./install.sh`. At time of writing, you'll also need to run the snippet in the Caveats section before restarting.
+Next, restart Binary Ninja. When loaded, Sensei will update all the bundled plugins to the latest version, and install any python dependencies for each plugin. It *won't* automatically run install scripts, so if you're on Ubuntu and intend to set up `binja_dynamics`, you'll need to navigate to `~/.binaryninja/repositories/default/plugins/binja_dynamics` and run `./install.sh`.
 
 #### Manual Installation
 If any of the plugin installations fail, you may have more success performing a manual installation. Pending [Issue #753](https://github.com/Vector35/binaryninja-api/issues/753), some plugins that reply on absolute file paths may not work unless manually installed. To manually install, copy the relevant repository links below, and clone them inside of your [plugins directory](https://github.com/Vector35/binaryninja-api/tree/master/python/examples#loading-plugins).
@@ -29,15 +29,6 @@ https://github.com/ehennenfent/binja_arch_ref.git
 https://github.com/ehennenfent/binja_dynamics.git
 https://github.com/ehennenfent/binja_explain_instruction.git
 https://github.com/carstein/Syscaller.git
-```
-
-### Caveats
-Due to a [bug](https://github.com/Vector35/binaryninja-api/issues/740) (as of dev-1.0.794) in the way Binary Ninja handles repository management, all the plugins installed by Binja Sensei (via the plugin manager) will be disabled. To fix this, after first installing Sensei, simply run the following snippet in the script console, then restart Binja.
-``` python
-manager = RepositoryManager()
-
-for plugin in manager.plugins['default']:
-  log_info(plugin.name + ": " + str(manager.enable_plugin(plugin, install=False)))
 ```
 
 ## Bundled Tools
