@@ -54,17 +54,31 @@ To confirm this, I'll double check the endianness in the architecture reference.
 
 ![Screenshot](images/8.png)
 
+If I  step all the way to the return instruction, I can see that the stack pointer now points where the return address used to be. Technically, the plugin still thinks that the return address is here, but the stack pointer highlight takes priority over the predicted return address. I'll use the explanation plugin to get a better idea for what `retn` actually does. All `retn` does is grab the value in memory at the address specified by the stack pointer, and set the instruction pointer equal to that. That means that if I can control what's in the memory at this address, I can control what the program will execute after this `retn` statement.
+
 ![Screenshot](images/6.png)
+
+I'll also use the explanation plugin to understand how `leave` works. It's semantically equivalent to setting stack pointer to the base pointer, popping the value at the stack pointer off of the stack, and setting the base pointer equal to that. In one instruction, it tears down the stack frame for the current function.
 
 ![Screenshot](images/7.png)
 
+I'll run program again, and pass it 48 bytes instead of 16. Since `vuln` only has a 32 byte buffer, this might cause trouble. Rather than type all those A's out by hand, I'll tell the console to interpret input as a python expression, and tell it to generate 48 A's.
+
 ![Screenshot](images/9.png)
+
+The 48 bytes grabbed from `read` still fit in the 64 byte buffer. No problems yet.
 
 ![Screenshot](images/10.png)
 
+I'll step into `vuln` and see if it still works. This time, when I step over the call to `strcpy`, the bytes it copies don't fit in the 32 bytes buffer `vuln` has available. It clobbers the base pointer and the saved return address.  
+
 ![Screenshot](images/11.png)
 
+When I try to return from `vuln`, the program encounters a segmentation fault. This is hardly surprising, given that I destroyed the stack frame.
+
 ![Screenshot](images/12.png)
+
+Instead of just overwriting the return address with junk, I'll try to overwrite it with the address of the first instruction in `shell`. I'll start constructing a python script to generate a string that will let me do that. Looking back to the last screenshot of the memory viewer, I can see that between the start of the buffer in `vuln` and the return address, there are 40 bytes - 32 for the buffer, and 8 for the saved base pointer. I can fill those up with A's, and I'll need to put my new return address after that.
 
 ```python
 buffer_length = 32
@@ -77,6 +91,8 @@ print 'A'*(buffer_length + saved_rbp_width) # + ???
 Helpfully, Binary Ninja will show me the address of each instruction. The address of the first instruction in `shell` is `0x400654`.
 
 ![Screenshot](images/13.png)
+
+I can now fill out the rest of the exploit script. I'll use the `struct` module to pack the address of `shell` into a little-endian byte string, and append that to the padding bytes when I call `print`.
 
 ```python
 import struct
@@ -111,7 +127,7 @@ Next, I'll step through the `leave` and `retn` instructions. Since I successfull
 
 ![Screenshot](images/18.png)
 
-Before I go any further, I need to delete the breakpoints set in GDB. If I don't do this, the exploit will still work, but GDB will attempt to set breakpoints in `/bin/sh` after we execute it, which will cause problems because `/bin/sh` has a different address layout than the current binary.
+Before I go any further, I need to delete the breakpoints set in GDB. If I don't do this, the exploit will still work, but GDB will attempt to set breakpoints in `/bin/sh` after I execute it, which will cause problems because `/bin/sh` has a different address layout than the current binary.
 
 ![Screenshot](images/19.png)
 
@@ -119,7 +135,7 @@ Since I deleted the breakpoints at the GDB console instead of via the Binja UI, 
 
 ![Screenshot](images/20.png)
 
-Next, I'll click the "Continue" button, which will tell GDB to continue executing until it hits another breakpoint (all of which we just deleted). The shell function executes `/bin/sh`, and a prompt appears in the interaction console.
+Next, I'll click the "Continue" button, which will tell GDB to continue executing until it hits another breakpoint (all of which I just deleted). The shell function executes `/bin/sh`, and a prompt appears in the interaction console.
 
 ![Screenshot](images/21.png)
 
