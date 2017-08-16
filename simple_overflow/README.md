@@ -30,22 +30,33 @@ There are two important things to notice about this snippet:
 
 As an attacker, I want to craft an exploit that tricks this program into executing the `shell` function so I can take control of the computer running it. Let's look at how I can use the tools created for this project to develop such an exploit.
 
+First, I'll open the [overflow](overflow) binary in Binary Ninja and enable `binja_dynamics` (Tools --> Enable Dynamic Analysis Tools). I'll step through the first few instructions of `main`. The important highlights are marked in the image below.
 
 ![Screenshot](images/1.png)
 
+I'll step down to the call to `read`, which makes the interaction panel pop up. I'll enter 16 A's, which should be fairly easy to spot in the memory viewer. Note how the memory viewer highlights the updated bytes in orange once the call to `read` completes.
+
 ![Screenshot](images/2.gif)
+
+I'll step for a few more instructions until I get into the `vuln` function and its stack frame is set up. The sequence of A's I entered is still visible on the stack frame below the current one. I've highlighted the relevant bytes in green to make them easy to spot.
 
 ![Screenshot](images/3.png)
 
+I'll step over the call to `strcpy`. Afterwards, I can see that the 16 A's have been copied into the buffer in the current stack frame. Since I have the source code for the binary, this doesn't come as a surprise.
+
 ![Screenshot](images/4.png)
 
+While the return address is automatically highlighted in red, I've manually highlighted the bytes I'll try to overwrite in green. According to the traceback viewer, the return address of `vuln` is `0x4006dd`.
+
 ![Screenshot](images/5.png)
+
+To confirm this, I'll double check the endianness in the architecture reference. The reference confirms that x86 is little-endian. Going back to the highlighted green bytes in the previous image, I can see that they contain `dd` `06` `40` `00`, which, when converted from little-endian form, become 0x004006dd.
+
+![Screenshot](images/8.png)
 
 ![Screenshot](images/6.png)
 
 ![Screenshot](images/7.png)
-
-![Screenshot](images/8.png)
 
 ![Screenshot](images/9.png)
 
