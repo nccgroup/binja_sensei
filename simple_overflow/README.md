@@ -66,6 +66,16 @@ To confirm this, I'll double check the endianness in the architecture reference.
 
 ![Screenshot](images/12.png)
 
+```python
+buffer_length = 32
+saved_rbp_width = 8
+
+print 'A'*(buffer_length + saved_rbp_width) # + ???
+
+```
+
+Helpfully, Binary Ninja will show me the address of each instruction. The address of the first instruction in `shell` is `0x400654`.
+
 ![Screenshot](images/13.png)
 
 ```python
@@ -82,11 +92,18 @@ print 'A'*(buffer_length + saved_rbp_width) + packed_return_address
 
 ```
 
+I'm now ready to test the exploit. I'll run the solution script, and at first pipe the output into a hexdump to make sure that everything looks correct. Since it does, I'll pipe it into the `base64` utility to get an easily copy-and-paste-able version.
+
 ![Screenshot](images/14.png)
+
+After starting the program over and stepping over the `read` call, I'l change the mode of the input panel to base 64, and paste in the output of the exploit script.
 
 ![Screenshot](images/15.png)
 
+After the call completes, I can see that the memory now contains the exploit bytes, which have been properly base 64 decoded. Since I'm still in the `vuln` function, they haven't overwritten anything yet.
 ![Screenshot](images/16.png)
+
+Now I'll step through into the `vuln` function, where the gif below shows the before and after of stepping over the call to `strcpy`. The buffer in `vuln` turns orange as `strcpy` overwrites the bytes there with the exploit. Since there are more bytes in the exploit than there is space in the buffer, `strcpy` keeps overwriting memory, and by following the orange highlights, I can see that the return address is overwritten as well. In the traceback viewer, I click on the button showing the new return address, and I get taken to the first instruction of `shell`. The exploit worked.
 
 ![Screenshot](images/17.gif)
 
