@@ -57,6 +57,20 @@ As an attacker, I want to craft an exploit that tricks this program into executi
 
 ![Screenshot](images/13.png)
 
+```python
+import struct
+
+buffer_length = 32
+saved_rbp_width = 8
+
+desired_return_address = 0x400654
+packed_return_address = struct.pack('<I', desired_return_address)
+
+
+print 'A'*(buffer_length + saved_rbp_width) + packed_return_address
+
+```
+
 ![Screenshot](images/14.png)
 
 ![Screenshot](images/15.png)
@@ -65,15 +79,27 @@ As an attacker, I want to craft an exploit that tricks this program into executi
 
 ![Screenshot](images/17.gif)
 
+Next, I'll step through the `leave` and `retn` instructions. Since I successfully overwrote the return address with the address of `shell`, the instruction pointer now points to the first instruction there. As you can see in the traceback viewer, overwriting the saved base pointer did some horrible things to the stack. Fortunately, I don't need to be concerned about this, since I only care whether `shell` drops a shell as expected, not whether it exits without throwing a segmentation fault.
+
 ![Screenshot](images/18.png)
+
+Before I go any further, I need to delete the breakpoints set in GDB. If I don't do this, the exploit will still work, but GDB will attempt to set breakpoints in `/bin/sh` after we execute it, which will cause problems because `/bin/sh` has a different address layout than the current binary.
 
 ![Screenshot](images/19.png)
 
+Since I deleted the breakpoints at the GDB console instead of via the Binja UI, binjatron will complain that the existing breakpoints have suddenly disappeared. I'll click "No" at the prompt so that it doesn't undo what I just did.
+
 ![Screenshot](images/20.png)
+
+Next, I'll click the "Continue" button, which will tell GDB to continue executing until it hits another breakpoint (all of which we just deleted). The shell function executes `/bin/sh`, and a prompt appears in the interaction console.
 
 ![Screenshot](images/21.png)
 
+Just to prove that everything works, I'll run the `whoami` command at the console, which prints out my username.
+
 ![Screenshot](images/22.png)
+
+Exploiting a program in GDB is one thing, but I want to double check that my exploit works in an actual environment. I'll pipe the output of the python solution into `pbcopy` to put it on my clipboard, verify that it worked as expected by piping `pbpaste` into a hexdump, then run the program and paste in the exploit. Just as in GDB, the exploit gets us a shell. Note that my VM has ASLR turned off so that the address space in bash will match the address space in GDB.
 
 ![Screenshot](images/23.png)
 
