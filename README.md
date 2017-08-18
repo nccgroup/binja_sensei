@@ -4,7 +4,7 @@ Educational tools for Binary Ninja
 This plugin provides resources for beginners to learn reverse engineering using Binary Ninja. It automatically installs several other plugins, and provides examples that showcase the features of these plugins.
 
 ## Origins
-This project is a product of [NCC Group](https://www.nccgroup.trust/us/)'s 2017 summer internship program.
+This project is a product of [NCC Group](https://www.nccgroup.trust/us/)'s 2017 summer internship program. **Further updates will be tracked at [https://github.com/ehennenfent/binja_sensei](https://github.com/ehennenfent/binja_sensei).** NCC Group is not responsible for any further changes made to the repository after August 18th, 2017.
 
 ## Setup
 
